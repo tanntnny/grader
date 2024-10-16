@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useState } from 'react';
+import TopBar from './components/TopBar';
+import ProblemSpace from './components/ProblemSpace';
+import Home from './components/Home';
+import ProblemView from './components/ProblemView';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="min-h-screen flex justify-center">
+        <div className="w-[1440px] text-center p-8">
+          <nav>
+            <TopBar />
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/tasks" element={<ProblemSpace />} />
+            <Route path="/view/:props" element={<ProblemView />} />
+          </Routes>
+          
+        </div>
+      </div>
+    </Router>
   );
 }
 
