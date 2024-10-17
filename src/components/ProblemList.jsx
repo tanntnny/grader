@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from 'tailwind-merge';
 import { fetchMetadata } from "../supabaseFetcher";
-import { Skeleton } from "@mui/material";
+import { CircularProgress, LinearProgress } from "@mui/material";
 
 const List = (props) => {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ const ProblemList = ({ className }) => {
                 :
                 <div>
                     <p>Loading task ...</p>
-                    <Skeleton variant="rectangle" width={800} height={100} animation="wave"/>
+                    <LinearProgress width="800px"/>
                 </div>
             }
         </div >
