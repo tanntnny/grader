@@ -39,7 +39,7 @@ const Submission = ({ name }) => {
         formData.append('problemName', name);
     
         try {
-            const response = await fetch('http://127.0.0.1:5000/grade', {
+            const response = await fetch('https://grader-back.onrender.com/grade', {
                 method: 'POST',
                 body: formData,
             });
