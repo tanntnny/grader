@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from 'tailwind-merge';
 import { fetchMetadata } from "../supabaseFetcher";
+import { Skeleton } from "@mui/material";
 
 const List = (props) => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const List = (props) => {
 }
 
 const ProblemList = ({ className }) => {
-    const [problemSetsData, setProblemSetsData] = useState([])
+    const [problemSetsData, setProblemSetsData] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,12 +42,14 @@ const ProblemList = ({ className }) => {
 
     return (
         <div className={twMerge('flex flex-col justify-center content-center items-center', className)}>
-            {
-                problemSetsData.map((element) => {
-                    return (
-                        <List {...element} key={element.name} />
-                    )
+            { problemSetsData ? problemSetsData.map((element) => {
+                return ( <List {...element} key={element.name} /> )
                 })
+                :
+                <div>
+                    <p>Loading task ...</p>
+                    <Skeleton variant="rectangle" width={800} height={100} animation="wave"/>
+                </div>
             }
         </div >
     )
