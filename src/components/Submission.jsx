@@ -1,3 +1,4 @@
+import { LinearProgress } from "@mui/material";
 import { useState } from "react";
 
 const Task = ({ status }) => {
@@ -22,6 +23,7 @@ const Task = ({ status }) => {
 
 const Submission = ({ name }) => {
     const [file, setFile] = useState(null);
+    const [gradingState, setGradingState] = useState(false)
     const [result, setResult] = useState('');
 
     const handleFileChange = (e) => setFile(e.target.files[0]);
@@ -74,6 +76,7 @@ const Submission = ({ name }) => {
                     Upload & Grade
                 </button>
             </form>
+            {gradingState ? <LinearProgress /> : <></>}
             {result && result.map((element) => <Task status={element} />)}
             {result && <p className="font-bold">PASS: {countPass / result.length * 100}%</p>}
         </div>
