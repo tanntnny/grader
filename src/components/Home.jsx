@@ -18,7 +18,7 @@ const Home = () => {
             <div className="flex font-bold justify-center w-[150px] mt-5 rounded-lg p-3 bg-green-200 text-green-800 cursor-pointer hover:bg-green-300" onClick={handleClick}>
                 Explore tasks!
             </div>
-            <div className='flex flex-col w-[600px] items-end mt-56'>
+            <div className='flex flex-col w-[600px] items-end mt-48'>
                 <p className="text-lg font-bold font-mono">contact: tanntnny</p>
                 <div className='mt-5 border w-[200px] flex rounded-lg p-2 text-rose-500 font-bold text-lg border-rose-500 justify-center hover:bg-rose-100 cursor-pointer'
                     onClick={handleClick1}
