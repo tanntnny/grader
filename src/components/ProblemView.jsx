@@ -24,7 +24,7 @@ const ProblemView = () => {
                 // URL.revokeObjectURL(pdfUrl)
             }
         }
-    }, [file_name, pdfUrl])
+    }, [file_name])
     
     return (
         <div className="flex flex-col">
