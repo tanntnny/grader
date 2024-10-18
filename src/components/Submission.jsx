@@ -39,6 +39,8 @@ const Submission = ({ name }) => {
         const formData = new FormData();
         formData.append('codeFile', file);
         formData.append('problemName', name);
+
+        setGradingState(true)
     
         try {
             const response = await fetch('https://grader-back.onrender.com/grade', {
@@ -59,6 +61,8 @@ const Submission = ({ name }) => {
             console.error('Fetch error:', error);
             setResult(`Grade submission error: ${error.message}`);
         }
+
+        setGradingState(false)
     };
 
     let countPass = 0
