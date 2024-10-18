@@ -26,7 +26,7 @@ const Home = () => {
                     instagram
                 </div>
                 <div className='mt-5 border w-[200px] flex rounded-lg p-2 text-blue-600 font-bold text-lg border-blue-600 justify-center hover:bg-blue-100 cursor-pointer'
-                    onClick={handleClick1}
+                    onClick={handleClick2}
                 >
                     facebook
                 </div>
