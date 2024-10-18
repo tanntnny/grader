@@ -3,15 +3,15 @@ import { useState } from "react";
 
 const Task = ({ status }) => {
     let message, color = ''
-    if (status == 'p') {
+    if (status === 'p') {
         message = 'PASS'
         color = 'border-lime-400'
-    } else if (status == 't') {
+    } else if (status === 't') {
         message = 'TIME EXCEED'
-    } else if (status == 'f') {
+    } else if (status === 'f') {
         message = 'FAILED'
         color = 'border-red-400'
-    } else if (status == 'e') {
+    } else if (status === 'e') {
         message = 'COMPILATION ERROR'
     }
     return (

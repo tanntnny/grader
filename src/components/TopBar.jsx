@@ -10,8 +10,8 @@ const TopBar = () => {
     }
 
     return (
-        <div className='p-5'>
-            <p className='font-bold text-xl text-zinc-500 text-left my-4 cursor-pointer hover:text-zinc-400' onClick={handleClick}>Tanny Grader!</p>
+        <div className='flex flex-col w-full p-5'>
+            <p className='font-bold text-xl text-left text-zinc-500 my-4 cursor-pointer hover:text-zinc-400' onClick={handleClick}>BugBuster</p>
             <Divider aria-hidden="true" />
         </div>)
 }
