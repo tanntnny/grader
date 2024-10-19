@@ -1,6 +1,6 @@
 import Divider from '@mui/material/Divider';
 import { useNavigate } from "react-router-dom";
-import GoogleLogin from './GoogleLogin';
+import { GoogleLogin } from './GoogleLogin';
 
 
 const TopBar = () => {

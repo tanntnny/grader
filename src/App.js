@@ -17,7 +17,7 @@ function App() {
             <Route path="/tasks" element={<ProblemSpace />} />
             <Route path="/view/:props" element={<ProblemView />} />
           </Routes>
-          
+
         </div>
       </div>
     </Router>

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
+import { useEffect } from "react";
 
 const List = (props) => {
     const navigate = useNavigate();
@@ -23,6 +24,15 @@ const List = (props) => {
 }
 
 const ProblemList = ({ searching, setSearching, problemSets }) => {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const user = localStorage.getItem('user')
+        if (user == null) {
+            navigate('/')
+        }
+    }, [])
+
     return (
         <div className="flex flex-col items-center">
             { problemSets ? problemSets.map((element) => {

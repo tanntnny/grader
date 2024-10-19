@@ -1,16 +1,34 @@
 import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from 'react';
 import { FacebookOutlined, Instagram } from "@mui/icons-material"
+import { Alert, Snackbar } from '@mui/material';
 
 const Home = () => {
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarConfig, setSnackbarConfig] = useState({})
+
     const navigate = useNavigate()
+
     const handleClick = () => {
-        navigate('/tasks')
+        const user = localStorage.getItem('user')
+        if (user) {
+            navigate('/tasks')
+        } else {
+            setSnackbarConfig({
+                message: 'You have to login before doing the tasks!',
+                severity: 'warning'
+            })
+            setSnackbarOpen(true)
+        }
     }
     const handleClick1 = () => {
         window.open('https://www.instagram.com/tanntnny', '_blank', 'noopener,noreferrer');
     }
     const handleClick2 = () => {
         window.open('https://web.facebook.com/profile.php?id=100027066084280', '_blank', 'noopener,noreferrer');
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false)
     }
     return (
         <div className="flex flex-col items-center">
@@ -34,6 +52,21 @@ const Home = () => {
                     <p className="ml-3">facebook</p>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    variant='filled'
+                    severity={snackbarConfig.severity}
+                    className="justify-center items-center"
+                >
+                    <p className="text-sm font-bold">{snackbarConfig.message}</p>
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

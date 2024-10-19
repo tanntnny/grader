@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth"
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth"
+import { useNavigate } from 'react-router-dom';
+import { Alert, Snackbar } from '@mui/material';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_zHn5KINNttTBpnJt5xGoSULfGVMdHbo",
@@ -16,13 +18,23 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
 
-function GoogleLogin() {
+const GoogleLogin = () => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarConfig, setSnackbarConfig] = useState({})
   const [user, setUser] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        localStorage.setItem('user', JSON.stringify(user))
+        setSnackbarConfig({
+          message: 'Login successfully!',
+          severity: 'success',
+        })
+        setSnackbarOpen(true)
+        navigate('/')
       } else {
         setUser(null);
       }
@@ -35,24 +47,60 @@ function GoogleLogin() {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log('User Info: ', user);
     } catch (error) {
       console.error('Error during Google login:', error);
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false)
+  }
+
   return (
     <div>
       {user ? 
-      <div className='flex'>
-        <p className="text-xl">Welcome, {user.displayName}</p>
+      <div className='flex items-center'>
+        <p className="text-xl mr-5">Welcome, {user.displayName}</p>
+        <GoogleLogout />
       </div> :
         <div className="font-bold text-lg text-blue-600 border-2 p-1.5 px-6 rounded-lg border-blue-400 hover:bg-blue-100">
           <button onClick={handleLogin}>Login</button>
         </div>
       }
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center"}}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          variant='filled'
+          severity={snackbarConfig.severity}
+          className="justify-center items-center"
+        >
+          <p className="font-bold text-sm">{snackbarConfig.message}</p>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
 
-export default GoogleLogin;
+const GoogleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      localStorage.removeItem('user')
+      window.location.href = '/';
+    } catch(err) {
+      console.error('Error while signing out:', err);
+    }
+  }
+  return (
+    <div className='font-bold text-lg text-red-600 border-2 p-1.5 px-6 rounded-lg border-red-400 hover:bg-red-100'>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  )
+}
+
+export { GoogleLogin } ;
