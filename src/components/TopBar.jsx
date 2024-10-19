@@ -11,7 +11,7 @@ const TopBar = () => {
     }
 
     return (
-        <div className='flex flex-col w-full p-5'>
+        <div className='flex flex-col w-[1440px] p-5'>
             <div className='flex items-center justify-between mb-4'>
                 <p className='font-bold text-xl text-left text-zinc-500 my-4 cursor-pointer hover:text-zinc-400' onClick={handleClick}>BugBuster</p>
                 <GoogleLogin />

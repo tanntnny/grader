@@ -5,11 +5,17 @@ const supabaseKey = process.env.REACT_APP_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function fetchMetadata() {
+async function fetchMetadata(contain) {
     try {
-        const { data, error } = await supabase
+        const { data, error } =
+            contain && contain.value != 'All' ?
+            await supabase
             .from('problemSets')
-            .select('*');
+            .select('*')
+            .contains(contain.column, [contain.value]) : 
+            await supabase
+            .from('problemSets')
+            .select('*')
         if (error) {
             console.error('Error fetching data:', error);
             return [];
@@ -39,5 +45,21 @@ async function fetchPDF(file_name) {
     }
 }
 
+async function fetchUniques(column) {
+    try {
+        const { data, error } = await supabase
+            .from('problemSets')
+            .select(column)
+        if (error) {
+            console.error(`Error fetching ${column}:`, error)
+            return null
+        }
+        const uniques = [...new Set(data.flatMap(row => [...row[column]]))]
+        return uniques
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
 
-export { fetchMetadata, fetchPDF }
+export { fetchMetadata, fetchPDF, fetchUniques }

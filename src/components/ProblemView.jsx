@@ -27,7 +27,7 @@ const ProblemView = () => {
     }, [file_name])
     
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
             <div className="flex mt-3">
                 <div className="mr-5 w-full">
                     { pdfUrl ?

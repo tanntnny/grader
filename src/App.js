@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen flex justify-center">
-        <div className="w-[1440px] text-center p-8">
+        <div className="flex flex-col items-center w-[1440px] text-center p-8">
           <nav>
             <TopBar />
           </nav>
