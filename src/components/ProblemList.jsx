@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchMetadata } from "../supabaseFetcher";
-import { LinearProgress } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 const List = (props) => {
     const navigate = useNavigate();
@@ -24,30 +22,17 @@ const List = (props) => {
     )
 }
 
-const ProblemList = (props) => {
-    const [problemSetsData, setProblemSetsData] = useState()
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetchMetadata({"column": 'tags', "value": props.tags})
-                setProblemSetsData(response)
-            } catch (error) {
-                console.error('Error fetching problem sets data:', error)
-            }
-        }
-        fetchData();
-    }, [props.tags])
-
+const ProblemList = ({ searching, setSearching, problemSets }) => {
     return (
-        <div className="flex flex-col justify-center content-center items-center">
-            { problemSetsData ? problemSetsData.map((element) => {
+        <div className="flex flex-col items-center">
+            { problemSets ? problemSets.map((element) => {
                 return ( <List {...element} key={element.name} /> )
                 })
                 :
                 <div>
-                    <p>Loading task ...</p>
-                    <LinearProgress width="800px"/>
+                    <Skeleton variant="rounded" width={800} height={70} className="my-2" animationi="wave"/>
+                    <Skeleton variant="rounded" width={800} height={70} className="my-2" animationi="wave"/>
+                    <Skeleton variant="rounded" width={800} height={70} className="my-2" animationi="wave"/>
                 </div>
             }
         </div >

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import { fetchPDF } from "../supabaseFetcher"
 import SideBar from "./SideBar"
+import { Skeleton } from "@mui/material"
 
 const ProblemView = () => {
     const { props } = useParams()
@@ -37,7 +38,8 @@ const ProblemView = () => {
                             width="100%"
                             height="1000px"
                         />
-                        : <p>pdf loading ...</p>
+                        :
+                        <Skeleton variant="rectangle" height={1000}/>
                     }
                 </div>
                 <SideBar name={name} author={author} difficulty={difficulty} />

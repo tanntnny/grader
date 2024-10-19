@@ -5,17 +5,37 @@ const supabaseKey = process.env.REACT_APP_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function fetchMetadata(contain) {
+async function fetchMetadata(searching) {
+    let firstRow
     try {
-        const { data, error } =
-            contain && contain.value != 'All' ?
-            await supabase
+        const {data, error} = await supabase
             .from('problemSets')
             .select('*')
-            .contains(contain.column, [contain.value]) : 
-            await supabase
+            .limit(1)
+        if (error) {
+            console.error('Error fetching first row:', error)
+            firstRow = null
+        } else {
+            firstRow = data[0]
+        }
+    } catch (err) {
+        console.error('Error:', err)
+    }
+
+    try {
+        let query = supabase
             .from('problemSets')
             .select('*')
+        for (const key in searching) {
+            if (searching[key] !== 'All') {
+                if (Array.isArray(firstRow[key])) {
+                    query = query.contains(key, [searching[key]])
+                } else {
+                    query = query.match({[key]: searching[key]})
+                }
+            }
+        }
+        const { data, error } = await query
         if (error) {
             console.error('Error fetching data:', error);
             return [];
@@ -54,7 +74,12 @@ async function fetchUniques(column) {
             console.error(`Error fetching ${column}:`, error)
             return null
         }
-        const uniques = [...new Set(data.flatMap(row => [...row[column]]))]
+        let uniques
+        if (Array.isArray(data[0][column])) {
+            uniques = [...new Set(data.flatMap(row => [...row[column]]))]
+        } else {
+            uniques = [...new Set(data.flatMap(row => row[column]))]
+        }
         return uniques
     } catch (error) {
         console.error(error)
