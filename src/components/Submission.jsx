@@ -20,6 +20,7 @@ const Task = ({ status }) => {
         </div>
     )
 }
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 
 const Submission = ({ name }) => {
     const [file, setFile] = useState(null);
@@ -35,15 +36,21 @@ const Submission = ({ name }) => {
             setResult('Please upload a file and enter the problem name');
             return;
         }
+
+        const user = JSON.parse(localStorage.getItem('user'))
     
         const formData = new FormData();
         formData.append('codeFile', file);
-        formData.append('problemName', name);
+        formData.append('config', JSON.stringify({
+            problemName: name,
+            uid: user.uid,
+            displayName: user.displayName
+        }));
 
         setGradingState(true)
     
         try {
-            const response = await fetch('https://grader-back.onrender.com/grade', {
+            const response = await fetch(isDevelopment ? 'http://localhost:10000/grade' : 'https://grader-back.onrender.com/grade', {
                 method: 'POST',
                 body: formData,
             });
