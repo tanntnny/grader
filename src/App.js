@@ -3,6 +3,7 @@ import TopBar from './components/TopBar';
 import ProblemSpace from './components/ProblemSpace';
 import Home from './components/Home';
 import ProblemView from './components/ProblemView';
+import SubmissionBoard from './components/SubmissionBoard';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/tasks" element={<ProblemSpace />} />
+            <Route path="/submissions" element={<SubmissionBoard />} />
             <Route path="/view/:props" element={<ProblemView />} />
           </Routes>
 

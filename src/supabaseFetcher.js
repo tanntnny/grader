@@ -87,4 +87,32 @@ async function fetchUniques(column) {
     }
 }
 
-export { fetchMetadata, fetchPDF, fetchUniques }
+const convertTime = (isoTime) => {
+    const utcDate = new Date(isoTime)
+    const utcPlus = new Date(utcDate.getTime() + 7 * 3600 * 1000)
+    const hours = String(utcPlus.getUTCHours()).padStart(2, '0');
+    const minutes = String(utcPlus.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(utcPlus.getUTCSeconds()).padStart(2, '0');
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+    return formattedTime
+}
+
+const getSubmissions = async () => {
+    try {
+        const {data, err} = await supabase
+            .from('submissions')
+            .select('displayName, problemName, score, createdAt')
+        if (err) {
+            console.error('Error:', err);
+            return null;
+        }
+        const newData = [...data.map(element => {
+            return {...element, createdAt: convertTime(element.createdAt)}
+        })]
+        return newData
+    } catch(err) {
+        console.error('Error fetching submissions:', err)
+    }
+}
+
+export { fetchMetadata, fetchPDF, fetchUniques, getSubmissions }
