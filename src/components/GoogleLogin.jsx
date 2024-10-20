@@ -75,7 +75,6 @@ const GoogleLogin = () => {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          variant='filled'
           severity={snackbarConfig.severity}
           className="justify-center items-center"
         >

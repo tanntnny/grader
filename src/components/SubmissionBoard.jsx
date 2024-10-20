@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSubmissions } from "../supabaseFetcher";
+import { Skeleton } from "@mui/material";
 
 const TableList = ({ message }) => {
     return (
@@ -40,7 +41,14 @@ const SubmissionBoard = () => {
                     <TableList message="Score" />
                     <TableList message="Time" />
                 </div>
-                {submissions ? submissions.map(element => <SubmissionList {...element}/>) : "Loading ..."}
+                {submissions ?
+                    submissions.map(element => <SubmissionList {...element} />) :
+                    <>
+                        <Skeleton variant="rounded" width={1200} height={50} className="my-2" />
+                        <Skeleton variant="rounded" width={1200} height={50} className="my-2" />
+                        <Skeleton variant="rounded" width={1200} height={50} className="my-2" />
+                    </>
+                }
             </div>
         </div>
     )

@@ -102,15 +102,16 @@ const getSubmissions = async () => {
         const {data, err} = await supabase
             .from('submissions')
             .select('displayName, problemName, score, createdAt')
+            .order('createdAt', {ascending: false})
         if (err) {
             console.error('Error:', err);
             return null;
         }
         const newData = [...data.map(element => {
-            return {...element, createdAt: convertTime(element.createdAt)}
+            return { ...element, createdAt: convertTime(element.createdAt), score: `${element.score} / 10` }
         })]
         return newData
-    } catch(err) {
+    } catch (err) {
         console.error('Error fetching submissions:', err)
     }
 }
