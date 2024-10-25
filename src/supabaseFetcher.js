@@ -88,14 +88,21 @@ async function fetchUniques(column) {
 }
 
 const convertTime = (isoTime) => {
-    const utcDate = new Date(isoTime)
-    const utcPlus = new Date(utcDate.getTime() + 7 * 3600 * 1000)
+    const utcDate = new Date(isoTime);
+    const utcPlus = new Date(utcDate.getTime() + 7 * 3600 * 1000); // UTC+7 adjustment
+
+    const year = utcPlus.getUTCFullYear();
+    const month = String(utcPlus.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(utcPlus.getUTCDate()).padStart(2, '0');
+
     const hours = String(utcPlus.getUTCHours()).padStart(2, '0');
     const minutes = String(utcPlus.getUTCMinutes()).padStart(2, '0');
     const seconds = String(utcPlus.getUTCSeconds()).padStart(2, '0');
-    const formattedTime = `${hours}:${minutes}:${seconds}`;
-    return formattedTime
-}
+
+    const formattedTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    return formattedTime;
+};
+
 
 const getSubmissions = async () => {
     try {
@@ -103,6 +110,7 @@ const getSubmissions = async () => {
             .from('submissions')
             .select('displayName, problemName, score, createdAt')
             .order('createdAt', {ascending: false})
+            .limit(10)
         if (err) {
             console.error('Error:', err);
             return null;

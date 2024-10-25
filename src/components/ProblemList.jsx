@@ -2,6 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 import { useEffect } from "react";
 
+const TagList = ({ message }) => {
+    return (
+        <div className="rounded-xl bg-zinc-200 px-2">
+            <p className="text-base">{message}</p>
+        </div>
+    )
+}
+
 const List = (props) => {
     const navigate = useNavigate();
 
@@ -16,8 +24,13 @@ const List = (props) => {
                 <p className='font-semibold text-[16px]'>{props.name}</p>
                 <p className='font-semibold text-[16px]'>{props.difficulty}</p>
             </div>
-            <div className='flex'>
+            <div className='flex justify-between mt-3'>
                 <p className='font-light text-[14px]'>Author: {props.author}</p>
+                <div className="flex w-[500px] justify-end">
+                    {props.tags.map(element => {
+                        return <TagList message={element}/>
+                    })}
+                </div>
             </div>
         </div>
     )
@@ -31,7 +44,7 @@ const ProblemList = ({ searching, setSearching, problemSets }) => {
         if (user == null) {
             navigate('/')
         }
-    }, [])
+    }, [navigate])
 
     return (
         <div className="flex flex-col items-center">
