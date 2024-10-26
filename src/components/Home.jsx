@@ -4,9 +4,9 @@ import { FacebookOutlined, Instagram } from "@mui/icons-material"
 import { Alert, Snackbar } from '@mui/material';
 
 const annoucements = [
-    'You can now change the display name',
-    'Update tags in each task',
-    'Edit problem "Multiverse Hopper"'
+    '(26 Oct.) You can now change the display name',
+    '(25 Oct.)Update tags in each task',
+    '(25 Oct.) Edit problem "Multiverse Hopper"'
 ]
 
 const AnnouncementList = ({ message }) => {
@@ -80,7 +80,7 @@ const Home = () => {
     return (
         <div className="flex flex-col items-center">
             <p className="font-bold text-3xl mt-10 font-mono">Welcome to "BugBuster grader".</p>
-            <p className="mt-3 text-lg">'This is built to extend your knowledge in computer programming<br />withvarious additional problems outside the class!'</p>
+            <p className="mt-3 text-lg">'This is built to extend your knowledge in computer programming<br />with various additional problems outside the class!'</p>
             <div className="flex font-bold justify-center w-[150px] mt-5 rounded-lg p-3 bg-green-200 text-green-800 cursor-pointer hover:bg-green-300" onClick={handleClick}>
                 Explore tasks!
             </div>
