@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FacebookOutlined, Instagram } from "@mui/icons-material"
 import { Alert, Snackbar } from '@mui/material';
 
 const annoucements = [
+    'You can now change the display name',
     'Update tags in each task',
     'Edit problem "Multiverse Hopper"'
 ]
@@ -20,7 +21,7 @@ const UpdateAnnoucements = () => {
     return (
         <div className="flex flex-col">
             <p className="font-mono font-bold text-lg mb-3">Update list:</p>
-            {annoucements.map(element => <AnnouncementList message={element}/>)}
+            {annoucements.map(element => <AnnouncementList key={element} message={element}/>)}
         </div>
     )
 }

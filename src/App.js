@@ -4,24 +4,27 @@ import ProblemSpace from './components/ProblemSpace';
 import Home from './components/Home';
 import ProblemView from './components/ProblemView';
 import SubmissionBoard from './components/SubmissionBoard';
+import { UserSettingContextProvider } from './components/Contexts/UserSettingContext';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex justify-center">
-        <div className="flex flex-col items-center w-[1440px] text-center p-8">
-          <nav>
-            <TopBar />
-          </nav>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/tasks" element={<ProblemSpace />} />
-            <Route path="/submissions" element={<SubmissionBoard />} />
-            <Route path="/view/:props" element={<ProblemView />} />
-          </Routes>
+      <UserSettingContextProvider>
+        <div className="min-h-screen flex justify-center">
+          <div className="flex flex-col items-center w-[1440px] text-center p-8">
+            <nav>
+              <TopBar />
+            </nav>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/tasks" element={<ProblemSpace />} />
+              <Route path="/submissions" element={<SubmissionBoard />} />
+              <Route path="/view/:props" element={<ProblemView />} />
+            </Routes>
 
+          </div>
         </div>
-      </div>
+      </UserSettingContextProvider>
     </Router>
   );
 }

@@ -28,7 +28,7 @@ const List = (props) => {
                 <p className='font-light text-[14px]'>Author: {props.author}</p>
                 <div className="flex w-[500px] justify-end">
                     {props.tags.map(element => {
-                        return <TagList message={element}/>
+                        return <TagList key={element} message={element}/>
                     })}
                 </div>
             </div>

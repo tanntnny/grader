@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, TextField } from '@mui/material';
+
+import {updateSettings} from './../supabaseFetcher'
+import { UserSettingContext } from './Contexts/UserSettingContext';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_zHn5KINNttTBpnJt5xGoSULfGVMdHbo",
@@ -17,6 +20,50 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
+
+const DisplayName = ({ user }) => {
+  const userSettingContext = useContext(UserSettingContext)
+  const [mouseEnter, setMouseEnter] = useState(false)
+  const [value, setValue] = useState('')
+
+  const handleMouseEnter = () => {
+    setMouseEnter(true)
+  }
+  const handleMouseLeave = () => {
+    setMouseEnter(false)
+  }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const doUpdate = async () => {
+        const response = await updateSettings({ displayName: value }, user.uid)
+        if (response.status === 200) {
+          userSettingContext.updateUserSettings()
+        }
+      }
+      doUpdate()
+    }
+  }
+
+  return (
+    <div className="flex w-[300px] h-[60px] items-center mr-3 justify-center" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {mouseEnter ? <TextField
+        label="Change display name"
+        variant="standard"
+        value={value}
+        onKeyDown={handleKeyDown}
+        onChange={(e) => { if (e.target.value.length <= 20) { setValue(e.target.value) } }}
+        InputProps={{
+          style: {
+            fontSize: '20px',
+          },
+        }}
+        fullWidth
+      /> :
+        <p className="text-xl">Welcome, {userSettingContext.userSettings.displayName}</p>
+      }
+    </div>
+  )
+}
 
 const GoogleLogin = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -45,8 +92,7 @@ const GoogleLogin = () => {
 
   const handleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error('Error during Google login:', error);
     }
@@ -60,7 +106,7 @@ const GoogleLogin = () => {
     <div>
       {user ? 
       <div className='flex items-center'>
-        <p className="text-xl mr-5">Welcome, {user.displayName}</p>
+        <DisplayName user={user} />
         <GoogleLogout />
       </div> :
         <div className="font-bold text-lg text-blue-600 border-2 p-1.5 px-6 rounded-lg border-blue-400 hover:bg-blue-100">

@@ -1,5 +1,7 @@
 import { LinearProgress } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { UserSettingContext } from './Contexts/UserSettingContext'
 
 const Task = ({ status }) => {
     let message, color = ''
@@ -23,6 +25,8 @@ const Task = ({ status }) => {
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 
 const Submission = ({ name }) => {
+    const userSettingContext = useContext(UserSettingContext)
+
     const [file, setFile] = useState(null);
     const [gradingState, setGradingState] = useState(false)
     const [result, setResult] = useState('');
@@ -44,7 +48,7 @@ const Submission = ({ name }) => {
         formData.append('config', JSON.stringify({
             problemName: name,
             uid: user.uid,
-            displayName: user.displayName
+            displayName: userSettingContext.userSettings.displayName
         }));
 
         setGradingState(true)
@@ -88,7 +92,7 @@ const Submission = ({ name }) => {
                 </button>
             </form>
             {gradingState ? <LinearProgress /> : <></>}
-            {result && result.map((element) => <Task status={element} />)}
+            {result && result.map((element, index) => <Task key={`${element}:${index}`} status={element} />)}
             {result && <p className="font-bold">PASS: {countPass / result.length * 100}%</p>}
         </div>
     )

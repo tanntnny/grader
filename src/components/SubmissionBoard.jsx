@@ -36,13 +36,13 @@ const SubmissionBoard = () => {
             <p className='font-medium text-5xl'>Submissions</p>
             <div className="flex flex-col mt-10">
                 <div className='font-bold text-xl flex w-full p-3 my-2 rounded-xl justify-between items-center'>
-                    <TableList message="ProblemName" />
                     <TableList message="User" />
+                    <TableList message="Problem Name" />
                     <TableList message="Score" />
                     <TableList message="Time" />
                 </div>
                 {submissions ?
-                    submissions.map(element => <SubmissionList {...element} />) :
+                    submissions.map(element => <SubmissionList key={`${element.displayName}:${element.createdAt}`} {...element} />) :
                     <>
                         <Skeleton variant="rounded" width={1200} height={50} className="my-2" />
                         <Skeleton variant="rounded" width={1200} height={50} className="my-2" />

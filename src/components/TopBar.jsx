@@ -2,6 +2,7 @@ import Divider from '@mui/material/Divider';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from './GoogleLogin';
 
+import { useContext, useEffect } from 'react';
 
 const TopBar = () => {
     const navigate = useNavigate()
@@ -25,7 +26,8 @@ const TopBar = () => {
                 </div>
             </div>
             <Divider aria-hidden="true" />
-        </div>)
+        </div>
+    )
 }
 
 export default TopBar;

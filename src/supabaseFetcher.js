@@ -124,4 +124,61 @@ const getSubmissions = async () => {
     }
 }
 
-export { fetchMetadata, fetchPDF, fetchUniques, getSubmissions }
+const updateSettings = async (updateConfig, uid) => {
+    try {
+        const { data: existance } = await supabase
+            .from('userSettings')
+            .select('*')
+            .eq('uid', uid)
+            .single();
+        console.log(existance)
+        if (existance) {
+            const { error } = await supabase
+                .from('userSettings')
+                .update(updateConfig)
+                .eq('uid', uid)
+            if (error) {
+                console.error(error)
+                return { status: 500 }
+            }
+            return {status: 200}
+        } else {
+            const { error } = await supabase
+                .from('userSettings')
+                .insert([{ uid: uid, ...updateConfig }])
+            if (error) {
+                console.error(error)
+                return { status: 500 }
+            }
+            return {status: 200}
+        }
+    } catch (err) {
+        console.error(`Error while updating settings: ${err}`)
+        return {status: 500}
+    }
+}
+
+const fetchUserSettings = async (uid, config) => {
+    try {
+        const { data } = await supabase
+            .from('userSettings')
+            .select('*')
+        if (data.length === 0) {
+            const {data, error} = await supabase
+                .from('userSettings')
+                .insert([{
+                    uid: uid,
+                    ...config
+                }])
+            if (error) {
+                console.error(error)
+            }
+            return data
+        }
+        return data
+    } catch (err) {
+        console.error(`Error while fetching user settings: ${err}`)
+    }
+}
+
+export { fetchMetadata, fetchPDF, fetchUniques, getSubmissions, updateSettings, fetchUserSettings }
